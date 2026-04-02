@@ -1,12 +1,12 @@
 "use client";
 
-import Image from "next/image";
 import { SiteFooter } from "@/components/SiteFooter";
 
 const releases = [
   {
     title: "DAWUD",
     year: "2025",
+    image: "/images/release-dawud.jpg",
     description: "Comedy special & album.",
     award: "🏆 Juno Award Nominated — Comedy Album of the Year 2026",
     links: [
@@ -40,6 +40,7 @@ const releases = [
   {
     title: "I LOVE YOU HABIBI",
     year: "2023",
+    image: "/images/release-i-love-you-habibi.jpg",
     description: "Comedy special.",
     award: "🏆 Canadian Screen Award Nominated",
     links: [
@@ -56,6 +57,7 @@ const releases = [
   {
     title: "BEAUTIFULLY MANIC",
     year: "2019",
+    image: "/images/release-beautifully-manic.jpg",
     description:
       "Comedy special. Part of Netflix's Comedians of the World.",
     award: "",
@@ -69,6 +71,7 @@ const releases = [
   {
     title: "GOOD FRIEND BAD GRAMMAR",
     year: "2018",
+    image: "/images/release-good-friend-bad-grammar.jpg",
     description: "Comedy album.",
     award: "🏆 Winner — 2019 Juno Award for Comedy Album of the Year",
     links: [
@@ -101,6 +104,7 @@ const releases = [
   {
     title: "MISEDUCATION OF A F**KBOI",
     year: "2023",
+    image: "/images/release-miseducation.jpg",
     description: "Comedy album.",
     award: "",
     links: [
@@ -129,6 +133,7 @@ const releases = [
   {
     title: "MAKE 'EM CRY",
     year: "2010",
+    image: "/images/release-make-em-cry.jpg",
     description: "Comedy album. Audio only.",
     award: "",
     links: [
@@ -149,11 +154,6 @@ const releases = [
   },
 ];
 
-function coverImageFor(title: string) {
-  if (title.toLowerCase() === "dawud") return "/images/dawud.jpg";
-  return "/images/release-placeholder.svg";
-}
-
 export default function ReleasesPage() {
   return (
     <>
@@ -163,18 +163,19 @@ export default function ReleasesPage() {
         </h1>
 
         <ul className="mt-16 grid gap-12 sm:grid-cols-2 lg:grid-cols-3">
-          {releases.map((r) => {
-            const coverSrc = coverImageFor(r.title);
-            return (
+          {releases.map((r) => (
               <li key={r.title} className="flex flex-col">
-                <div className="relative aspect-square w-full overflow-hidden bg-white/[0.04]">
-                  <Image
-                    src={coverSrc}
-                    alt=""
-                    fill
-                    className="object-cover"
-                    sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                    unoptimized
+                <div className="w-full overflow-hidden bg-white/[0.04]">
+                  {/* eslint-disable-next-line @next/next/no-img-element -- plain img per design */}
+                  <img
+                    src={r.image}
+                    alt={r.title}
+                    style={{
+                      width: "100%",
+                      height: "auto",
+                      display: "block",
+                      borderRadius: "8px",
+                    }}
                   />
                 </div>
                 <div className="mt-6 flex flex-1 flex-col">
@@ -207,8 +208,7 @@ export default function ReleasesPage() {
                   </div>
                 </div>
               </li>
-            );
-          })}
+          ))}
         </ul>
       </main>
       <SiteFooter />
