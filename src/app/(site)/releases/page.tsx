@@ -30,11 +30,6 @@ const releases = [
         label: "YouTube Music",
         url: "https://music.youtube.com/playlist?list=OLAK5uy_lHtgiEkFqmg-3C5WBhApigoPsSrZ3s774",
       },
-      {
-        label: "Deezer",
-        url: "https://link.deezer.com/s/32SfajaSiR4NIrDOYgFLG",
-      },
-      { label: "Tidal", url: "https://tidal.com/album/470556581/u" },
     ],
   },
   {
@@ -51,6 +46,35 @@ const releases = [
       {
         label: "Prime Video",
         url: "https://www.primevideo.com/detail/0IRZ4X2C924ZIM8KWAK277BIAQ/ref=atv_sr_fle_c_sr454129_pvsearchresults_1_1",
+      },
+    ],
+  },
+  {
+    title: "MISEDUCATION OF A F**KBOI",
+    year: "2023",
+    image: "/images/release-miseducation.jpg",
+    description: "Comedy album.",
+    award: "",
+    links: [
+      {
+        label: "YouTube",
+        url: "https://youtu.be/MgZhon09OB8?si=TM4enDcEvJSWGzQG",
+      },
+      {
+        label: "Apple Music",
+        url: "https://music.apple.com/ca/album/miseducation-of-a-fuckboi/1663631463",
+      },
+      {
+        label: "Spotify",
+        url: "https://open.spotify.com/album/6ZiOCmKmg3mLibRCbOWTdQ",
+      },
+      {
+        label: "Amazon Music",
+        url: "https://www.amazon.com/music/player/albums/B0BRVTSKH4",
+      },
+      {
+        label: "YouTube Music",
+        url: "https://music.youtube.com/playlist?list=OLAK5uy_nWIyoF6OgQqGUuD81jFSA9FhH7diSe6ZM",
       },
     ],
   },
@@ -102,35 +126,6 @@ const releases = [
     ],
   },
   {
-    title: "MISEDUCATION OF A F**KBOI",
-    year: "2023",
-    image: "/images/release-miseducation.jpg",
-    description: "Comedy album.",
-    award: "",
-    links: [
-      {
-        label: "YouTube",
-        url: "https://youtu.be/MgZhon09OB8?si=TM4enDcEvJSWGzQG",
-      },
-      {
-        label: "Apple Music",
-        url: "https://music.apple.com/ca/album/miseducation-of-a-fuckboi/1663631463",
-      },
-      {
-        label: "Spotify",
-        url: "https://open.spotify.com/album/6ZiOCmKmg3mLibRCbOWTdQ",
-      },
-      {
-        label: "Amazon Music",
-        url: "https://www.amazon.com/music/player/albums/B0BRVTSKH4",
-      },
-      {
-        label: "YouTube Music",
-        url: "https://music.youtube.com/playlist?list=OLAK5uy_nWIyoF6OgQqGUuD81jFSA9FhH7diSe6ZM",
-      },
-    ],
-  },
-  {
     title: "MAKE 'EM CRY",
     year: "2010",
     image: "/images/release-make-em-cry.jpg",
@@ -149,7 +144,6 @@ const releases = [
         label: "YouTube Music",
         url: "https://music.youtube.com/playlist?list=OLAK5uy_kBTNiC1jVx7fVb6-sgjJcpCFfKj-tY8EI",
       },
-      { label: "Tidal", url: "https://tidal.com/album/44225991/u" },
     ],
   },
 ];
