@@ -169,7 +169,7 @@ export default function HomePage() {
             <h2 className="text-center font-[family-name:var(--font-bebas)] text-4xl tracking-[0.12em] text-white sm:text-5xl">
               Contact
             </h2>
-            <div className="mt-14 grid gap-14 text-center md:grid-cols-2 md:text-left">
+            <div className="mt-14 flex flex-col items-center gap-14 text-center sm:flex-row sm:justify-center sm:items-start">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.25em] text-white/45">
                   Canada
