@@ -2,6 +2,8 @@ import Image from "next/image";
 import { SiteFooter } from "@/components/SiteFooter";
 import { getShows } from "@/lib/data";
 
+export const dynamic = 'force-dynamic';
+
 const dawudLinks = [
   {
     label: "YouTube",

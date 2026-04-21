@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { SiteFooter } from "@/components/SiteFooter";
 import { getBio } from "@/lib/data";
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: "Bio",
 };

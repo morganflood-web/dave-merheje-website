@@ -1,6 +1,8 @@
 import { SiteFooter } from "@/components/SiteFooter";
 import { getReleases } from "@/lib/data";
 
+export const dynamic = 'force-dynamic';
+
 export default async function ReleasesPage() {
   const releases = await getReleases();
 
