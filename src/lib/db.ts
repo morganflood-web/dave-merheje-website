@@ -1,6 +1,14 @@
 import { sql } from '@vercel/postgres';
 
 export async function setupDb() {
+  // Run migrations first (idempotent — adds columns if missing)
+  await sql`ALTER TABLE shows ADD COLUMN IF NOT EXISTS province_state TEXT`.catch(() => null);
+  await sql`ALTER TABLE shows ADD COLUMN IF NOT EXISTS sold_out BOOLEAN NOT NULL DEFAULT FALSE`.catch(() => null);
+  await sql`ALTER TABLE releases ADD COLUMN IF NOT EXISTS award_text TEXT`.catch(() => null);
+  await sql`ALTER TABLE releases ADD COLUMN IF NOT EXISTS cover_image TEXT NOT NULL DEFAULT '/images/release-placeholder.svg'`.catch(() => null);
+  await sql`ALTER TABLE releases ADD COLUMN IF NOT EXISTS platforms JSONB NOT NULL DEFAULT '[]'`.catch(() => null);
+  await sql`ALTER TABLE releases ADD COLUMN IF NOT EXISTS sort_order INTEGER NOT NULL DEFAULT 0`.catch(() => null);
+
   // Shows table
   await sql`
     CREATE TABLE IF NOT EXISTS shows (
