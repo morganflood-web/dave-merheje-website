@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { getShows } from '@/lib/data';
 import { addShow, updateShow, deleteShow } from '@/lib/actions/shows';
 import ShowsClient from './ShowsClient';

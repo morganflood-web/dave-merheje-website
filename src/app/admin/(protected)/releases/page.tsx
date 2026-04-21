@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { getReleases } from '@/lib/data';
 import { addRelease, updateRelease, deleteRelease } from '@/lib/actions/releases';
 import ReleasesClient from './ReleasesClient';
