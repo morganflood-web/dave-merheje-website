@@ -1,11 +1,19 @@
 import type { Metadata } from "next";
 import { SiteFooter } from "@/components/SiteFooter";
+import { getBio } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "Bio",
 };
 
-export default function BioPage() {
+export default async function BioPage() {
+  const bio = await getBio();
+
+  // Split bio text on double newlines for paragraph rendering
+  const paragraphs = bio.text
+    ? bio.text.split(/\n\n+/).filter(Boolean)
+    : [];
+
   return (
     <>
       <main>
@@ -23,32 +31,20 @@ export default function BioPage() {
               />
             </div>
             <div className="w-full md:w-3/5">
-              <p style={{ marginBottom: "1.5rem", lineHeight: "1.8" }}>
-                Dave Merheje is considered to be one of the most original standup
-                voices on the comedy scene today. His multiple award-winning act has
-                gained a loyal following across North America with his &quot;no
-                fear&quot; approach on stage and a comedy style best described as
-                aggressive in-your-face funny. Dave had his first comedy special air
-                in Australia on ABC2. His second special &quot;Good Friend Bad
-                Grammar&quot; won the 2019 Juno Award for Comedy Album of the year.
-                His third special &quot;Beautifully Manic,&quot; can be seen on
-                Netflix as part of Comedians of the World, and his fourth special
-                titled &quot;I Love You Habibi&quot; is streaming on AppleTV and was
-                nominated for a Canadian Screen Award. Dave&apos;s latest special
-                &apos;Dawud&apos; was recently nominated for a 2026 Juno and is
-                available on YouTube. Dave is a regular at the Just For Laughs
-                Festival in Montreal, Toronto, and Vancouver, and has made multiple
-                appearances at The Winnipeg Comedy Festival, The Halifax Comedy
-                Festival, the Melbourne International Comedy Festival in Australia,
-                and tours clubs and theatres regularly.
-              </p>
-              <p style={{ lineHeight: "1.8" }}>
-                Dave was a regular contributor on MTV Live, played Mr. Bechara on
-                CBC&apos;s Mr. D, and co-starred in the critically acclaimed comedy
-                series Ramy on Hulu and CraveTV. He was also the lead in the feature
-                film &apos;Sometimes I Think About Dying&apos; which was an official
-                selection at the Sundance Film Festival.
-              </p>
+              {paragraphs.length > 0 ? (
+                paragraphs.map((para, i) => (
+                  <p
+                    key={i}
+                    style={{ marginBottom: "1.5rem", lineHeight: "1.8" }}
+                  >
+                    {para}
+                  </p>
+                ))
+              ) : (
+                <p style={{ lineHeight: "1.8", color: "rgba(255,255,255,0.5)" }}>
+                  Bio coming soon.
+                </p>
+              )}
             </div>
           </div>
         </div>
