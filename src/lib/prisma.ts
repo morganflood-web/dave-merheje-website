@@ -17,14 +17,7 @@ function resolveDatabaseUrl(raw: string): string {
 function createPrismaClient() {
   const url = process.env.DATABASE_URL;
   if (!url) {
-    // During Vercel build phase without a real DB, return a dummy that throws on use
-    // In production this should always be set
-    if (process.env.NODE_ENV === 'production' && process.env.VERCEL_ENV === 'production') {
-      throw new Error("DATABASE_URL is not set in production");
-    }
-    // For build-time static analysis, use a placeholder
-    const adapter = new PrismaLibSql({ url: 'file:./prisma/dev.db' });
-    return new PrismaClient({ adapter });
+    throw new Error("DATABASE_URL is not set");
   }
   const adapter = new PrismaLibSql({
     url: resolveDatabaseUrl(url),

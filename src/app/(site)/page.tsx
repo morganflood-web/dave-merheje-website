@@ -1,8 +1,5 @@
 import Image from "next/image";
 import { SiteFooter } from "@/components/SiteFooter";
-import { getShows } from "@/lib/data";
-
-export const dynamic = 'force-dynamic';
 
 const dawudLinks = [
   {
@@ -21,11 +18,7 @@ const dawudLinks = [
   },
 ];
 
-export default async function HomePage() {
-  const shows = await getShows();
-  const now = new Date();
-  const upcomingShows = shows.filter((s) => new Date(s.date) >= now);
-
+export default function HomePage() {
   return (
     <>
       <main>
@@ -76,56 +69,97 @@ export default async function HomePage() {
               Upcoming Shows
             </h2>
             <div style={{ borderTop: "1px solid #333" }}>
-              {upcomingShows.length === 0 ? (
-                <p style={{ padding: "1.5rem 0", color: "rgba(255,255,255,0.4)", textAlign: "center" }}>
-                  More dates coming soon.
-                </p>
-              ) : (
-                upcomingShows.map((show) => {
-                  const d = new Date(show.date);
-                  const dayName = d.toLocaleDateString("en-CA", { weekday: "short" }).toUpperCase();
-                  const monthDay = d.toLocaleDateString("en-CA", { month: "short", day: "numeric" });
-                  const location = show.provinceState ? `${show.city}, ${show.provinceState}` : show.city;
-                  return (
-                    <div
-                      key={show.id}
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        padding: "12px 0",
-                        borderBottom: "1px solid #333",
-                      }}
-                    >
-                      <span style={{ flex: 1 }}>
-                        {monthDay} {dayName} — {show.venue}
-                      </span>
-                      <span style={{ flex: 1, textAlign: "center" }}>{location}</span>
-                      <span style={{ flex: 1, textAlign: "right" }}>
-                        {show.soldOut ? (
-                          <span style={{ color: "#666", fontSize: "0.85rem" }}>SOLD OUT</span>
-                        ) : (
-                          <a
-                            href={show.ticketUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            style={{
-                              border: "1px solid #FFD700",
-                              color: "#FFD700",
-                              padding: "4px 16px",
-                              borderRadius: "999px",
-                              fontSize: "0.85rem",
-                              whiteSpace: "nowrap",
-                            }}
-                          >
-                            Tickets
-                          </a>
-                        )}
-                      </span>
-                    </div>
-                  );
-                })
-              )}
+              {/* Show 1 */}
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  padding: "12px 0",
+                  borderBottom: "1px solid #333",
+                }}
+              >
+                <span style={{ flex: 1 }}>
+                  April 10 FRI — Majestic Theatre
+                </span>
+                <span style={{ flex: 1, textAlign: "center" }}>
+                  {"St. John's, NL"}
+                </span>
+                <span style={{ flex: 1, textAlign: "right" }}>
+                  <a
+                    href="https://majestictheatrehill.com/events/dave-merheje-live-at-the-majestic-2026-04-10-700-pm/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      border: "1px solid #FFD700",
+                      color: "#FFD700",
+                      padding: "4px 16px",
+                      borderRadius: "999px",
+                      fontSize: "0.85rem",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    Tickets
+                  </a>
+                </span>
+              </div>
+              {/* Show 2 */}
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  padding: "12px 0",
+                  borderBottom: "1px solid #333",
+                }}
+              >
+                <span style={{ flex: 1 }}>April 24 FRI — Winnipeg Comedy Festival</span>
+                <span style={{ flex: 1, textAlign: "center" }}>
+                  Winnipeg, MB
+                </span>
+                <span style={{ flex: 1, textAlign: "right" }}>
+                  <a
+                    href="https://www.ticketmaster.ca/event/11006329845A1050"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      border: "1px solid #FFD700",
+                      color: "#FFD700",
+                      padding: "4px 16px",
+                      borderRadius: "999px",
+                      fontSize: "0.85rem",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    Tickets
+                  </a>
+                </span>
+              </div>
+              {/* Show 3 */}
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  padding: "12px 0",
+                  borderBottom: "1px solid #333",
+                }}
+              >
+                <span style={{ flex: 1 }}>April 25 SAT — The Debaters</span>
+                <span style={{ flex: 1, textAlign: "center" }}>
+                  Winnipeg, MB
+                </span>
+                <span
+                  style={{
+                    flex: 1,
+                    textAlign: "right",
+                    color: "#666",
+                    fontSize: "0.85rem",
+                  }}
+                >
+                  SOLD OUT
+                </span>
+              </div>
             </div>
           </div>
         </section>
