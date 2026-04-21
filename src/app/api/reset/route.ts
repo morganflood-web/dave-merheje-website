@@ -6,9 +6,10 @@ import { setupDb } from '@/lib/db';
 // Remove this file after use
 export async function GET() {
   try {
-    await sql`DELETE FROM shows`;
-    await sql`DELETE FROM releases`;
-    await sql`DELETE FROM bio`;
+    // Drop and recreate tables to clear any schema drift from old template
+    await sql`DROP TABLE IF EXISTS shows`;
+    await sql`DROP TABLE IF EXISTS releases`;
+    await sql`DROP TABLE IF EXISTS bio`;
     await setupDb();
     return NextResponse.json({ ok: true, message: 'Database wiped and re-seeded with Dave Merheje data.' });
   } catch (err) {
