@@ -5,7 +5,7 @@ import { s, inputStyle, btnStyle, dangerBtnStyle, secondaryBtnStyle } from '../a
 
 interface Show {
   id: string;
-  date: Date;
+  date: string;
   venue: string;
   city: string;
   provinceState: string | null;
@@ -20,18 +20,8 @@ interface Props {
   deleteShow: (fd: FormData) => Promise<void>;
 }
 
-function formatDateForInput(date: Date): string {
-  // Format as YYYY-MM-DD for date input
-  return new Date(date).toISOString().split('T')[0];
-}
-
-function formatDateDisplay(date: Date): string {
-  return new Date(date).toLocaleDateString('en-CA', {
-    weekday: 'short',
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  });
+function formatDateDisplay(date: string): string {
+  return date;
 }
 
 export default function ShowsClient({ shows, addShow, updateShow, deleteShow }: Props) {
@@ -71,7 +61,7 @@ export default function ShowsClient({ shows, addShow, updateShow, deleteShow }: 
         <form onSubmit={handleAdd} style={s.formGrid}>
           <div>
             <label style={s.label}>Date</label>
-            <input type="date" name="date" required style={inputStyle} />
+            <input name="date" placeholder="Apr 24, 2026 FRI" required style={inputStyle} />
           </div>
           <div>
             <label style={s.label}>Venue</label>
@@ -126,9 +116,9 @@ export default function ShowsClient({ shows, addShow, updateShow, deleteShow }: 
                           <div>
                             <label style={s.label}>Date</label>
                             <input
-                              type="date"
                               name="date"
-                              defaultValue={formatDateForInput(show.date)}
+                              placeholder="Apr 24, 2026 FRI"
+                              defaultValue={show.date}
                               required
                               style={inputStyle}
                             />
@@ -172,7 +162,7 @@ export default function ShowsClient({ shows, addShow, updateShow, deleteShow }: 
                     </tr>
                   ) : (
                     <tr key={show.id} style={s.tr}>
-                      <td style={s.td}>{formatDateDisplay(show.date)}</td>
+                      <td style={s.td}>{show.date}</td>
                       <td style={s.td}>{show.venue}</td>
                       <td style={s.td}>{show.city}</td>
                       <td style={s.td}>{show.provinceState ?? '—'}</td>
