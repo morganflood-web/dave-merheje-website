@@ -1,37 +1,48 @@
-import { prisma } from './prisma';
-import { parsePlatforms } from './types';
+import { sql } from '@vercel/postgres';
+import type { Show, Release, Bio, PlatformLink } from './db';
 
-export async function getShows() {
-  const shows = await prisma.show.findMany({
-    orderBy: { date: 'asc' },
-  });
-  return shows.map((s) => ({
-    id: s.id,
-    date: s.date,
-    venue: s.venue,
-    city: s.city,
-    provinceState: s.provinceState,
-    ticketUrl: s.ticketUrl,
-    soldOut: s.soldOut,
+function parsePlatforms(raw: unknown): PlatformLink[] {
+  if (!Array.isArray(raw)) return [];
+  return (raw as { label?: string; url?: string }[])
+    .filter((x) => typeof x?.label === 'string' && typeof x?.url === 'string')
+    .map((x) => ({ label: x.label!, url: x.url! }));
+}
+
+export async function getShows(): Promise<Show[]> {
+  const result = await sql`
+    SELECT id, date, venue, city, province_state, ticket_url, sold_out
+    FROM shows
+    ORDER BY created_at ASC
+  `;
+  return result.rows.map((row) => ({
+    id: row.id,
+    date: row.date,
+    venue: row.venue,
+    city: row.city,
+    provinceState: row.province_state,
+    ticketUrl: row.ticket_url,
+    soldOut: row.sold_out,
   }));
 }
 
-export async function getReleases() {
-  const releases = await prisma.release.findMany({
-    orderBy: [{ sortOrder: 'asc' }, { createdAt: 'asc' }],
-  });
-  return releases.map((r) => ({
-    id: r.id,
-    title: r.title,
-    year: r.year,
-    awardText: r.awardText,
-    coverImage: r.coverImage,
-    platforms: parsePlatforms(r.platforms),
-    sortOrder: r.sortOrder,
+export async function getReleases(): Promise<Release[]> {
+  const result = await sql`
+    SELECT id, title, year, award_text, cover_image, platforms, sort_order
+    FROM releases
+    ORDER BY sort_order ASC, created_at ASC
+  `;
+  return result.rows.map((row) => ({
+    id: row.id,
+    title: row.title,
+    year: row.year,
+    awardText: row.award_text,
+    coverImage: row.cover_image,
+    platforms: parsePlatforms(row.platforms),
+    sortOrder: row.sort_order,
   }));
 }
 
-export async function getBio() {
-  const bio = await prisma.bio.findUnique({ where: { id: 'main' } });
-  return { text: bio?.text ?? '' };
+export async function getBio(): Promise<Bio> {
+  const result = await sql`SELECT text FROM bio WHERE id = 'main'`;
+  return { text: result.rows[0]?.text ?? '' };
 }

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { s, inputStyle, btnStyle, dangerBtnStyle, secondaryBtnStyle } from '../adminStyles';
-import type { PlatformLink } from '@/lib/types';
+import type { PlatformLink } from '@/lib/db';
 
 interface Release {
   id: string;

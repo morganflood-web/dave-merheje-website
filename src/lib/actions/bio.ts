@@ -1,7 +1,7 @@
 'use server';
 
+import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
-import { prisma } from '../prisma';
 import { isAuthenticated } from '../auth';
 
 export async function updateBio(formData: FormData) {
@@ -9,11 +9,10 @@ export async function updateBio(formData: FormData) {
 
   const text = formData.get('text') as string;
 
-  await prisma.bio.upsert({
-    where: { id: 'main' },
-    update: { text },
-    create: { id: 'main', text },
-  });
+  await sql`
+    INSERT INTO bio (id, text) VALUES ('main', ${text})
+    ON CONFLICT (id) DO UPDATE SET text = ${text}
+  `;
 
   revalidatePath('/bio');
   revalidatePath('/admin/bio');
