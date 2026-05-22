@@ -49,7 +49,6 @@ export default async function HomePage() {
             </div>
           </div>
         </section>
-        </section>
 
         <section id="contact" className="bg-[#0e0e0e] px-6 py-20 sm:py-28">
           <div className="mx-auto max-w-6xl">
