@@ -96,6 +96,16 @@ Dave was a regular contributor on MTV Live, played Mr. Bechara on CBC''s Mr. D, 
   }
 }
 
+
+// ─── Reset (clear all data and reseed) ───────────────────────────────────────
+
+export async function resetDb() {
+  await sql`DELETE FROM shows`;
+  await sql`DELETE FROM releases`;
+  await sql`DELETE FROM bio`;
+  await setupDb();
+}
+
 // ─── Types ───────────────────────────────────────────────────────────────────
 
 export interface PlatformLink {
