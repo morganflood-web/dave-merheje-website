@@ -97,12 +97,12 @@ Dave was a regular contributor on MTV Live, played Mr. Bechara on CBC''s Mr. D, 
 }
 
 
-// ─── Reset (clear all data and reseed) ───────────────────────────────────────
+// ─── Reset (drop tables and reseed fresh) ────────────────────────────────────
 
 export async function resetDb() {
-  await sql`DELETE FROM shows`;
-  await sql`DELETE FROM releases`;
-  await sql`DELETE FROM bio`;
+  await sql`DROP TABLE IF EXISTS shows`;
+  await sql`DROP TABLE IF EXISTS releases`;
+  await sql`DROP TABLE IF EXISTS bio`;
   await setupDb();
 }
 
