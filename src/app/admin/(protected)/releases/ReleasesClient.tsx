@@ -77,6 +77,65 @@ function PlatformEditor({
   );
 }
 
+function CoverImageUpload({ defaultPath }: { defaultPath: string }) {
+  const [path, setPath] = useState(defaultPath);
+  const [uploading, setUploading] = useState(false);
+  const [preview, setPreview] = useState(defaultPath);
+
+  async function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    try {
+      const fd = new FormData();
+      fd.append('file', file);
+      const res = await fetch('/api/admin/upload', { method: 'POST', body: fd });
+      const data = await res.json();
+      if (data.path) {
+        setPath(data.path);
+        setPreview(data.path);
+      } else {
+        alert('Upload failed: ' + (data.error ?? 'unknown error'));
+      }
+    } catch {
+      alert('Upload failed');
+    } finally {
+      setUploading(false);
+    }
+  }
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+      {preview && (
+        <img
+          src={preview}
+          alt="Cover"
+          style={{ width: 80, height: 80, objectFit: 'cover', borderRadius: 4, border: '1px solid #444' }}
+          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+        />
+      )}
+      <input
+        type="file"
+        accept="image/jpeg,image/png,image/webp"
+        onChange={handleFile}
+        disabled={uploading}
+        style={{ color: '#ccc', fontSize: '0.875rem' }}
+      />
+      {uploading && <p style={{ color: '#aaa', fontSize: '0.8rem', margin: 0 }}>Uploading…</p>}
+      <input type="hidden" name="coverImage" value={path} />
+      <p style={{ color: '#888', fontSize: '0.75rem', margin: 0 }}>
+        Or enter a path manually: <input
+          value={path}
+          onChange={(e) => { setPath(e.target.value); setPreview(e.target.value); }}
+          placeholder="/images/release-dawud.jpg"
+          style={{ ...inputStyle, marginTop: '0.25rem', fontSize: '0.8rem' }}
+        />
+      </p>
+    </div>
+  );
+}
+
+
 function ReleaseForm({
   defaultValues,
   releaseId,
@@ -124,14 +183,10 @@ function ReleaseForm({
         />
       </div>
       <div style={{ gridColumn: '1 / -1' }}>
-        <label style={s.label}>Cover Image Path</label>
-        <input
-          name="coverImage"
-          placeholder="/images/release-dawud.jpg"
-          defaultValue={defaultValues?.coverImage ?? '/images/release-placeholder.svg'}
-          style={inputStyle}
+        <label style={s.label}>Cover Image</label>
+        <CoverImageUpload
+          defaultPath={defaultValues?.coverImage ?? '/images/release-placeholder.svg'}
         />
-        <p style={s.hint}>File should be in public/images/ on the server.</p>
       </div>
 
       <div style={{ gridColumn: '1 / -1' }}>
