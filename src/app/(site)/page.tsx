@@ -1,24 +1,14 @@
 import Image from "next/image";
 import { SiteFooter } from "@/components/SiteFooter";
+import { getReleases } from "@/lib/data";
 
-const dawudLinks = [
-  {
-    label: "YouTube",
-    href: "https://youtu.be/8gs9OSqsqL0?si=jnoC493sYmvqXUc0",
-  },
-  { label: "Spotify", href: "https://open.spotify.com/album/2TAMsGmVzCwuFx9U0LVsje" },
-  {
-    label: "Apple Music",
-    href: "https://music.apple.com/ca/album/dawud/1850294582",
-  },
-  { label: "Amazon Music", href: "https://music.amazon.ca/albums/B0FYKLYRYN" },
-  {
-    label: "YouTube Music",
-    href: "https://music.youtube.com/playlist?list=OLAK5uy_lHtgiEkFqmg-3C5WBhApigoPsSrZ3s774",
-  },
-];
+export const dynamic = "force-dynamic";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const releases = await getReleases();
+  const dawud = releases.find((r) => r.title === "DAWUD");
+  const dawudLinks = dawud?.platforms ?? [];
+
   return (
     <>
       <main>
@@ -33,10 +23,10 @@ export default function HomePage() {
                   2026 Juno Award Nomination — Comedy Album of the Year
                 </p>
                 <div className="mx-auto mt-12 flex max-w-xl flex-col gap-3">
-                  {dawudLinks.map(({ label, href }) => (
+                  {dawudLinks.map(({ label, url }) => (
                     <a
-                      key={href}
-                      href={href}
+                      key={url}
+                      href={url}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex w-full items-center justify-center rounded-full border border-white/45 px-5 py-3.5 text-center text-[13px] font-medium text-white transition hover:border-white hover:bg-white/[0.06]"
@@ -59,109 +49,6 @@ export default function HomePage() {
             </div>
           </div>
         </section>
-
-        <section
-          id="shows"
-          className="scroll-mt-28 border-y border-white/[0.07] bg-[#121212] px-6 py-20 sm:py-28"
-        >
-          <div className="mx-auto max-w-6xl">
-            <h2 className="mb-10 text-center font-[family-name:var(--font-bebas)] text-4xl tracking-[0.12em] text-white sm:text-5xl">
-              Upcoming Shows
-            </h2>
-            <div style={{ borderTop: "1px solid #333" }}>
-              {/* Show 1 */}
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  padding: "12px 0",
-                  borderBottom: "1px solid #333",
-                }}
-              >
-                <span style={{ flex: 1 }}>
-                  April 10 FRI — Majestic Theatre
-                </span>
-                <span style={{ flex: 1, textAlign: "center" }}>
-                  {"St. John's, NL"}
-                </span>
-                <span style={{ flex: 1, textAlign: "right" }}>
-                  <a
-                    href="https://majestictheatrehill.com/events/dave-merheje-live-at-the-majestic-2026-04-10-700-pm/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{
-                      border: "1px solid #FFD700",
-                      color: "#FFD700",
-                      padding: "4px 16px",
-                      borderRadius: "999px",
-                      fontSize: "0.85rem",
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    Tickets
-                  </a>
-                </span>
-              </div>
-              {/* Show 2 */}
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  padding: "12px 0",
-                  borderBottom: "1px solid #333",
-                }}
-              >
-                <span style={{ flex: 1 }}>April 24 FRI — Winnipeg Comedy Festival</span>
-                <span style={{ flex: 1, textAlign: "center" }}>
-                  Winnipeg, MB
-                </span>
-                <span style={{ flex: 1, textAlign: "right" }}>
-                  <a
-                    href="https://www.ticketmaster.ca/event/11006329845A1050"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{
-                      border: "1px solid #FFD700",
-                      color: "#FFD700",
-                      padding: "4px 16px",
-                      borderRadius: "999px",
-                      fontSize: "0.85rem",
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    Tickets
-                  </a>
-                </span>
-              </div>
-              {/* Show 3 */}
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  padding: "12px 0",
-                  borderBottom: "1px solid #333",
-                }}
-              >
-                <span style={{ flex: 1 }}>April 25 SAT — The Debaters</span>
-                <span style={{ flex: 1, textAlign: "center" }}>
-                  Winnipeg, MB
-                </span>
-                <span
-                  style={{
-                    flex: 1,
-                    textAlign: "right",
-                    color: "#666",
-                    fontSize: "0.85rem",
-                  }}
-                >
-                  SOLD OUT
-                </span>
-              </div>
-            </div>
-          </div>
         </section>
 
         <section id="contact" className="bg-[#0e0e0e] px-6 py-20 sm:py-28">
