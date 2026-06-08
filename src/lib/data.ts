@@ -8,9 +8,25 @@ function parsePlatforms(raw: unknown): PlatformLink[] {
     .map((x) => ({ label: x.label!, url: x.url! }));
 }
 
+const MONTHS: Record<string, number> = {
+  jan: 0, feb: 1, mar: 2, apr: 3, may: 4, jun: 5,
+  jul: 6, aug: 7, sep: 8, oct: 9, nov: 10, dec: 11,
+  january: 0, february: 1, march: 2, april: 3, june: 5,
+  july: 6, august: 7, september: 8, october: 9, november: 10, december: 11,
+};
+
 function parseSortableDate(dateStr: string): number {
-  // Strip trailing day-of-week suffix like "FRI", "SAT" etc.
-  const cleaned = dateStr.replace(/\s+(MON|TUE|WED|THU|FRI|SAT|SUN)\s*$/i, '').trim();
+  // Strip trailing day-of-week suffix like "FRI", "SAT", "Monday" etc.
+  const cleaned = dateStr.replace(/,?\s+(mon|tue|wed|thu|fri|sat|sun|monday|tuesday|wednesday|thursday|friday|saturday|sunday)\s*$/i, '').trim();
+  // Match: "Jun 15, 2026" or "June 15 2026" or "Jun 15 2026"
+  const m = cleaned.match(/^([A-Za-z]+)\s+(\d{1,2}),?\s+(\d{4})$/);
+  if (m) {
+    const month = MONTHS[m[1].toLowerCase()];
+    if (month !== undefined) {
+      return new Date(parseInt(m[3]), month, parseInt(m[2])).getTime();
+    }
+  }
+  // Fallback: ISO or other formats
   const parsed = new Date(cleaned);
   return isNaN(parsed.getTime()) ? 0 : parsed.getTime();
 }
