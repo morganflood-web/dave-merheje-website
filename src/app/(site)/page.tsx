@@ -1,11 +1,11 @@
 import Image from "next/image";
 import { SiteFooter } from "@/components/SiteFooter";
-import { getReleases } from "@/lib/data";
+import { getReleases, getShows } from "@/lib/data";
 
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  const releases = await getReleases();
+  const [releases, shows] = await Promise.all([getReleases(), getShows()]);
   const dawud = releases.find((r) => r.title === "DAWUD");
   const dawudLinks = dawud?.platforms ?? [];
 
@@ -49,6 +49,63 @@ export default async function HomePage() {
             </div>
           </div>
         </section>
+
+        {shows.length > 0 && (
+          <section
+            id="shows"
+            className="scroll-mt-28 border-y border-white/[0.07] bg-[#121212] px-6 py-20 sm:py-28"
+          >
+            <div className="mx-auto max-w-6xl">
+              <h2 className="mb-10 text-center font-[family-name:var(--font-bebas)] text-4xl tracking-[0.12em] text-white sm:text-5xl">
+                Upcoming Shows
+              </h2>
+              <div style={{ borderTop: "1px solid #333" }}>
+                {shows.map((show) => (
+                  <div
+                    key={show.id}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      padding: "12px 0",
+                      borderBottom: "1px solid #333",
+                    }}
+                  >
+                    <span style={{ flex: 1 }}>
+                      {show.date} — {show.venue}
+                    </span>
+                    <span style={{ flex: 1, textAlign: "center" }}>
+                      {show.city}{show.provinceState ? `, ${show.provinceState}` : ""}
+                    </span>
+                    <span style={{ flex: 1, textAlign: "right" }}>
+                      {show.soldOut ? (
+                        <span style={{ color: "#666", fontSize: "0.85rem" }}>
+                          SOLD OUT
+                        </span>
+                      ) : (
+                        <a
+                          href={show.ticketUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{
+                            border: "1px solid #FFD700",
+                            color: "#FFD700",
+                            padding: "4px 16px",
+                            borderRadius: "999px",
+                            fontSize: "0.85rem",
+                            whiteSpace: "nowrap",
+                          }}
+                        >
+                          Tickets
+                        </a>
+                      )}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
 
         <section id="contact" className="bg-[#0e0e0e] px-6 py-20 sm:py-28">
           <div className="mx-auto max-w-6xl">
@@ -99,7 +156,7 @@ export default async function HomePage() {
           id="signup"
           className="border-t border-white/[0.08] bg-[#0a0a0a] px-6 py-20 text-center sm:py-28"
         >
-            <h2 className="mx-auto max-w-lg text-center font-[family-name:var(--font-bebas)] text-3xl leading-snug tracking-[0.08em] text-white sm:text-4xl">
+          <h2 className="mx-auto max-w-lg text-center font-[family-name:var(--font-bebas)] text-3xl leading-snug tracking-[0.08em] text-white sm:text-4xl">
             Wanna receive updates about upcoming shows and releases?
           </h2>
           <a

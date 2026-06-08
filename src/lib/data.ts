@@ -12,7 +12,15 @@ export async function getShows(): Promise<Show[]> {
   const result = await sql`
     SELECT id, date, venue, city, province_state, ticket_url, sold_out
     FROM shows
-    ORDER BY created_at ASC
+    ORDER BY
+      CASE
+        WHEN date ~ '^[A-Za-z]+ [0-9]' THEN TO_DATE(
+          REGEXP_REPLACE(date, '\s+(MON|TUE|WED|THU|FRI|SAT|SUN)\s*$', '', 'i'),
+          'Mon DD, YYYY'
+        )
+        ELSE created_at::date
+      END ASC,
+      created_at ASC
   `;
   return result.rows.map((row) => ({
     id: row.id,
