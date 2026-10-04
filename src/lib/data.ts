@@ -52,7 +52,7 @@ export async function getReleases(): Promise<Release[]> {
   const result = await sql`
     SELECT id, title, year, award_text, cover_image, platforms, sort_order
     FROM releases
-    ORDER BY sort_order ASC, created_at ASC
+    ORDER BY sort_order ASC
   `;
   return result.rows.map((row) => ({
     id: row.id,
