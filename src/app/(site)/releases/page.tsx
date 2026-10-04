@@ -1,5 +1,4 @@
 import { SiteFooter } from "@/components/SiteFooter";
-import ReleaseImage from "@/components/ReleaseImage";
 import { getReleases } from "@/lib/data";
 
 export const dynamic = "force-dynamic";
@@ -19,7 +18,11 @@ export default async function ReleasesPage() {
             <li key={r.id} className="flex flex-col">
               <div className="w-full overflow-hidden bg-white/[0.04]">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <ReleaseImage src={r.coverImage} alt={r.title} title={r.title} year={r.year} />
+                <img
+                  src={r.coverImage}
+                  alt={r.title}
+                  style={{ width: "100%", height: "auto", display: "block", borderRadius: "8px" }}
+                />
               </div>
               <div className="mt-6 flex flex-1 flex-col">
                 <p className="text-sm text-white/45">{r.year}</p>
