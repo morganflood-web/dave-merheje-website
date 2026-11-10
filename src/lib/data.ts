@@ -16,16 +16,19 @@ const MONTHS: Record<string, number> = {
 };
 
 function parseSortableDate(dateStr: string): number {
-  // Extract month, day, year from formats like:
-  // "July 15th, 2026 WED 7PM" or "Jun 15, 2026 FRI" or "June 15 2026"
-  const m = dateStr.match(/^([A-Za-z]+)\s+(\d{1,2})(?:st|nd|rd|th)?,?\s+(\d{4})/);
+  // Strip optional leading weekday prefix: "TUES, " / "FRI, " / "SAT, " etc.
+  // e.g. "TUES, Oct 20th, 2026" → "Oct 20th, 2026"
+  const stripped = dateStr.replace(/^[A-Za-z]+,\s*/, '');
+
+  // Match "Oct 20th, 2026" or "October 20, 2026" or "July 15th, 2026 WED 7PM" etc.
+  const m = stripped.match(/^([A-Za-z]+)\s+(\d{1,2})(?:st|nd|rd|th)?,?\s+(\d{4})/);
   if (m) {
     const month = MONTHS[m[1].toLowerCase()];
     if (month !== undefined) {
       return new Date(parseInt(m[3]), month, parseInt(m[2])).getTime();
     }
   }
-  // Fallback
+  // Fallback to native Date parsing (handles ISO format "YYYY-MM-DD" etc.)
   const parsed = new Date(dateStr);
   return isNaN(parsed.getTime()) ? 0 : parsed.getTime();
 }
